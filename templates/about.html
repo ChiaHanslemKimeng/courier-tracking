@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Us - Global Express Logistics{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="text-center mb-5 mt-4" data-aos="fade-down">
+        <h1 class="display-4 fw-bold">About Global Express Logistics</h1>
+        <p class="lead text-muted">A legacy of trust, built one delivery at a time.</p>
+    </div>
+
+    <div class="row align-items-center mb-5 pb-5" data-aos="fade-right">
+        <div class="col-md-6 mb-4 mb-md-0">
+            <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&q=80&w=800"
+                class="img-fluid rounded shadow-lg" alt="The Global Express Logistics Team">
+        </div>
+        <div class="col-md-6 ps-lg-5">
+            <h2 class="fw-bold mb-4">Meet Our Team</h2>
+            <p class="text-muted mb-4">Our dedicated professionals work around the clock to ensure your cargo reaches
+                its destination. From our fleet pilots to our warehouse logistics experts, every member of Global
+                Express Logistics is
+                committed to excellence.</p>
+            <div class="row g-4">
+                <div class="col-6">
+                    <div class="p-3 border-start border-primary border-4 bg-white shadow-sm">
+                        <h5 class="fw-bold mb-1">Global Network</h5>
+                        <p class="small text-muted mb-0">Operating in 120+ countries.</p>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="p-3 border-start border-secondary border-4 bg-white shadow-sm">
+                        <h5 class="fw-bold mb-1">24/7 Support</h5>
+                        <p class="small text-muted mb-0">Always here for you.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row align-items-center mb-5 pb-5 flex-md-row-reverse text-md-end">
+        <div class="col-md-6 mb-4 mb-md-0">
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800"
+                class="img-fluid rounded shadow-lg" alt="Our Technology">
+        </div>
+        <div class="col-md-6 pe-lg-5 text-md-start">
+            <h2 class="fw-bold mb-4">Cutting-Edge Technology</h2>
+            <p class="text-muted mb-4">We leverage real-time GPS tracking, AI-optimized routing, and automated
+                fulfillment centers to provide the most reliable courier service in the industry.</p>
+            <p class="text-muted">Global Express Logistics invests heavily in research and development to ensure that
+                our operations
+                remain at the forefront of the logistics revolution.</p>
+        </div>
+    </div>
+
+    <!-- Values Section -->
+    <div class="py-5 bg-light rounded-4 mb-5">
+        <div class="container text-center">
+            <h2 class="fw-bold mb-5">Our Core Values</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="p-4 bg-white h-100 rounded shadow-sm">
+                        <div class="feature-icon mx-auto"><i class="bi bi-shield-check"></i></div>
+                        <h4 class="fw-bold">Reliability</h4>
+                        <p class="text-muted">We deliver on our promises, ensuring every parcel is safe.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-4 bg-white h-100 rounded shadow-sm">
+                        <div class="feature-icon mx-auto"><i class="bi bi-lightning"></i></div>
+                        <h4 class="fw-bold">Speed</h4>
+                        <p class="text-muted">Optimized transit times for urgent shipments.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-4 bg-white h-100 rounded shadow-sm">
+                        <div class="feature-icon mx-auto"><i class="bi bi-heart"></i></div>
+                        <h4 class="fw-bold">Care</h4>
+                        <p class="text-muted">Treating every package as if it were our own.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,316 @@
+{% load static %}
+<style>
+  :root {
+    --primary-green: #00a651;
+    --dark-bg: #f4f7f6;
+    --border-color: #dee2e6;
+  }
+
+  .tracking-container {
+    font-family: 'Inter', sans-serif;
+    color: #333;
+  }
+
+  .logo-section {
+    text-align: center;
+    margin: 20px 0;
+  }
+
+  .express-logo {
+    max-width: 250px;
+    margin-bottom: 10px;
+  }
+
+  .barcode-area {
+    display: inline-block;
+    border: 1px solid #ccc;
+    padding: 5px;
+    background: white;
+  }
+
+  .barcode-img {
+    height: 60px;
+    width: 200px;
+    background: repeating-linear-gradient(90deg, #000, #000 2px, #fff 2px, #fff 4px);
+    margin-bottom: 5px;
+  }
+
+  .info-header {
+    background: #eee;
+    padding: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 15px;
+  }
+
+  .info-block {
+    margin-bottom: 20px;
+  }
+
+  .info-label {
+    color: #666;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .status-banner {
+    background: #bbb;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    margin: 20px 0;
+  }
+
+  .premium-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+
+  .premium-table th {
+    background: var(--primary-green);
+    color: white;
+    padding: 10px;
+    text-align: left;
+    font-weight: 500;
+    border: 1px solid #ddd;
+  }
+
+  .premium-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    vertical-align: top;
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    background: #fff;
+    border: 1px solid #eee;
+    padding: 15px;
+  }
+
+  .grid-item {
+    border-bottom: 1px solid #f9f9f9;
+    padding-bottom: 5px;
+  }
+
+  .summary-bar {
+    background: #fdfdfd;
+    padding: 10px;
+    border: 1px solid #eee;
+    display: flex;
+    justify-content: space-around;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+</style>
+
+<div class="tracking-container bg-white p-4 border rounded shadow-sm mt-4">
+  <!-- Header: Logo and Barcode -->
+  <div class="logo-section mb-4">
+    <img src="{% static 'images/logo.png' %}" alt="Global Express Logistics Logo" class="express-logo"
+      style="max-width: 280px;">
+  </div>
+  <div class="barcode-area">
+    <div class="barcode-img"></div>
+    <div class="small fw-bold">{{ shipment.tracking_number }}</div>
+  </div>
+</div>
+
+<!-- Shipper and Receiver Info -->
+<div class="row">
+  <div class="col-md-6 info-block">
+    <div class="info-header border-start border-4 border-success">Shipper Information</div>
+    <div class="ps-2">
+      <div class="fw-bold">{{ shipment.shipper_name }}</div>
+      <div>{{ shipment.shipper_address }}</div>
+      <div>{{ shipment.shipper_phone }}</div>
+      <div>{{ shipment.shipper_email }}</div>
+    </div>
+  </div>
+  <div class="col-md-6 info-block">
+    <div class="info-header border-start border-4 border-success">Receiver Information</div>
+    <div class="ps-2">
+      <div class="fw-bold">{{ shipment.receiver_name }}</div>
+      <div>{{ shipment.receiver_address }}</div>
+      <div>{{ shipment.receiver_phone }}</div>
+      <div>{{ shipment.receiver_email }}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Status Banner -->
+<div class="status-banner" style="background: #a9a9a9;">
+  SHIPMENT STATUS: {{ shipment.get_status_display|upper }}
+</div>
+
+<!-- Shipment Information Table -->
+<h5 class="fw-bold mb-3">Shipment Information</h5>
+<div class="info-grid mb-4">
+  <div class="grid-item">
+    <div class="info-label">Origin:</div>
+    <div>{{ shipment.origin|default:"N/A" }}</div>
+  </div>
+  <div class="grid-item">
+    <div class="info-label">Carrier:</div>
+    <div>{{ shipment.get_carrier_display|default:shipment.carrier|default:"Global Express Logistics" }}</div>
+  </div>
+  <div class="grid-item">
+    <div class="info-label">Status:</div>
+    <div class="badge bg-secondary">{{ shipment.get_status_display }}</div>
+  </div>
+
+  <div class="grid-item">
+    <div class="info-label">Destination:</div>
+    <div>{{ shipment.destination|default:"N/A" }}</div>
+  </div>
+  <div class="grid-item">
+    <div class="info-label">Shipment Mode:</div>
+    <div>{{ shipment.get_mode_display|default:shipment.mode|default:"N/A" }}</div>
+  </div>
+  <div class="grid-item">
+    <div class="info-label">Type of Shipment:</div>
+    <div>{{ shipment.get_type_of_shipment_display|default:shipment.type_of_shipment|default:"N/A" }}</div>
+  </div>
+
+  <div class="grid-item">
+    <div class="info-label">Weight:</div>
+    <div>{{ shipment.weight|default:"N/A" }}</div>
+  </div>
+  <div class="grid-item">
+    <div class="info-label">Qty:</div>
+    <div>{{ shipment.packages.count }}</div>
+  </div>
+  <div class="grid-item">
+    <div class="info-label">Carrier Reference No.:</div>
+    <div>{{ shipment.carrier_ref_no|default:"N/A" }}</div>
+  </div>
+
+  <div class="grid-item">
+    <div class="info-label">Product:</div>
+    <div>{{ shipment.product|default:"N/A" }}</div>
+  </div>
+  <div class="grid-item">
+    <div class="info-label">Expected Delivery Date:</div>
+    <div>{{ shipment.expected_delivery_date|default:"N/A" }}</div>
+  </div>
+  <div class="grid-item">
+    <div class="info-label">Payment Mode:</div>
+    <div>{{ shipment.get_payment_mode_display|default:shipment.payment_mode|default:"N/A" }}</div>
+  </div>
+
+  <div class="grid-item">
+    <div class="info-label">Total Freight:</div>
+    <div>{{ shipment.total_freight|default:"N/A" }}</div>
+  </div>
+  <div class="grid-item">
+    <div class="info-label">Pick-up Date:</div>
+    <div>{{ shipment.pickup_date|default:"N/A" }}</div>
+  </div>
+  <div class="grid-item">
+    <div class="info-label">Departure Time:</div>
+    <div>{{ shipment.departure_time|default:"N/A" }}</div>
+  </div>
+
+  <div class="grid-item">
+    <div class="info-label">Pick-up Time:</div>
+    <div>{{ shipment.pickup_time|default:"N/A" }}</div>
+  </div>
+</div>
+
+<!-- Packages Table -->
+{% if shipment.packages.all %}
+<h5 class="fw-bold mb-3">Packages</h5>
+<table class="premium-table">
+  <thead>
+    <tr>
+      <th>Qty.</th>
+      <th>Piece Type</th>
+      <th>Description</th>
+      <th>Length(cm)</th>
+      <th>Width(cm)</th>
+      <th>Height(cm)</th>
+      <th>Weight (kg)</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for pkg in shipment.packages.all %}
+    <tr>
+      <td>{{ pkg.qty }}</td>
+      <td>{{ pkg.piece_type }}</td>
+      <td>{{ pkg.description }}</td>
+      <td>{{ pkg.length }}</td>
+      <td>{{ pkg.width }}</td>
+      <td>{{ pkg.height }}</td>
+      <td>{{ pkg.weight }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+
+<!-- Volumetric Summary -->
+<div class="summary-bar mb-4">
+  <div>Total Volumetric Weight : <span class="text-primary">{{ shipment.total_volumetric|default:"0.00" }} kg.</span>
+  </div>
+  <div>Total Volume : <span class="text-primary">{{ shipment.total_volume|default:"0.00" }} cu. m.</span></div>
+  <div>Total Actual Weight : <span class="text-primary">{{ shipment.total_actual_weight|default:"0.00" }} kg.</span>
+  </div>
+</div>
+
+<!-- Map Section -->
+{% if shipment.current_lat and shipment.current_lng %}
+<h5 class="fw-bold mb-3">Current Location Map</h5>
+<div id="map" class="rounded border mb-4" style="height: 350px; width: 100%;"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const lat = parseFloat("{{ shipment.current_lat }}");
+    const lng = parseFloat("{{ shipment.current_lng }}");
+    const map = L.map("map").setView([lat, lng], 13);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+    L.marker([lat, lng]).addTo(map).bindPopup("Current Location: {{ shipment.current_location }}").openPopup();
+    setTimeout(() => map.invalidateSize(), 500);
+  });
+</script>
+{% endif %}
+
+<!-- Shipment History Table -->
+{% if shipment.updates.all %}
+<h5 class="fw-bold mb-3">Shipment History</h5>
+<table class="premium-table">
+  <thead style="background: var(--primary-green) !important;">
+    <tr>
+      <th>Date</th>
+      <th>Time</th>
+      <th>Location</th>
+      <th>Status</th>
+      <th>Updated By</th>
+      <th>Remarks</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for update in shipment.updates.all %}
+    <tr>
+      <td>{{ update.date }}</td>
+      <td>{{ update.time }}</td>
+      <td>{{ update.location }}</td>
+      <td>{{ update.status }}</td>
+      <td>{{ update.updated_by }}</td>
+      <td>{{ update.remarks }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+</div>

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ post.title }} - Global Express Logistics Blog{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center py-5">
+    <div class="col-lg-8">
+        <!-- Back to Blog -->
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'blog' %}" class="text-decoration-none">Blog</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ post.title }}</li>
+            </ol>
+        </nav>
+
+        <article class="bg-white rounded-4 shadow-sm overflow-hidden">
+            <!-- Blog Header Image -->
+            <img src="{{ post.image_url }}" class="img-fluid w-100" alt="{{ post.title }}"
+                style="height: 400px; object-fit: cover;">
+
+            <div class="p-4 p-md-5">
+                <div class="d-flex align-items-center mb-4 text-muted">
+                    <span
+                        class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill me-3">Trends</span>
+                    <i class="bi bi-calendar3 me-2"></i> {{ post.date }}
+                </div>
+
+                <h1 class="display-4 fw-bold mb-4">{{ post.title }}</h1>
+
+                <p class="lead fw-normal text-muted mb-5 border-start border-primary border-4 ps-4">
+                    {{ post.excerpt }}
+                </p>
+
+                <div class="blog-content fs-5 text-secondary" style="line-height: 1.8;">
+                    {{ post.content|linebreaks }}
+                </div>
+
+                <!-- Footer / Share -->
+                <hr class="my-5">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <img src="https://ui-avatars.com/api/?name=GE+Logistics&background=0D6EFD&color=fff"
+                            class="rounded-circle me-3" alt="Author" style="width: 50px;">
+                        <div>
+                            <p class="mb-0 fw-bold">GE Logistics Editorial</p>
+                            <p class="mb-0 small text-muted">Logistics Experts</p>
+                        </div>
+                    </div>
+                    <div>
+                        <a href="{% url 'blog' %}" class="btn btn-outline-primary rounded-pill px-4">
+                            <i class="bi bi-arrow-left me-2"></i> Back to Blog
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Related Posts or CTA -->
+        <div class="mt-5 p-5 bg-primary text-white rounded-4 shadow-lg text-center">
+            <h2 class="fw-bold mb-3">Ready to ship with the best?</h2>
+            <p class="lead mb-4">Experience the future of logistics today with our global network.</p>
+            <a href="{% url 'track' %}" class="btn btn-light btn-lg px-5 fw-bold rounded-pill text-primary shadow">Track
+                Your Shipment</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

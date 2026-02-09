@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Track Your Shipment - Global Express Logistics{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <h2 class="text-center mb-5 fw-bold" style="color: #2c3e50;">Track</h2>
+
+      <div class="bg-white p-4 border rounded shadow-sm mb-4">
+        <h5 class="fw-bold mb-3">Enter the Consignment No.</h5>
+        <form method="post" class="row g-3">
+          {% csrf_token %}
+          <div class="col-md-9">
+            <input type="text" name="tracking_number" class="form-control form-control-lg border-2"
+              placeholder="ED03789498-US" required>
+            <div class="mt-2 text-muted fw-bold">Ex: 12345</div>
+          </div>
+          <div class="col-md-3">
+            <button class="btn btn-primary btn-lg w-100 fw-bold py-2" type="submit"
+              style="background-color: #337ab7; border-color: #2e6da4;">
+              TRACK RESULT
+            </button>
+          </div>
+        </form>
+
+        {% if shipment %}
+        <div class="mt-3">
+          <button onclick="window.print()" class="btn btn-success btn-sm fw-bold shadow-sm"
+            style="background-color: #00a651;">
+            <i class="bi bi-printer-fill me-1"></i> Print Track Result
+          </button>
+        </div>
+        {% endif %}
+      </div>
+
+      {% if shipment %}
+      {% include "tracking_result.html" %}
+      {% elif request.method == "POST" %}
+      <div class="alert alert-danger text-center shadow" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>Consignment number not found. Please verify and try again.
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<style>
+  @media print {
+
+    .navbar,
+    .footer,
+    form,
+    .btn,
+    h2 {
+      display: none !important;
+    }
+
+    .tracking-container {
+      border: none !important;
+      box-shadow: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+  }
+</style>
+{% endblock %}

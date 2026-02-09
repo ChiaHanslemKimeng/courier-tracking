@@ -1,0 +1,254 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - Global Express Logistics{% endblock %}
+
+{% block content %}
+<!-- Hero Carousel Section -->
+<div id="heroCarousel" class="carousel slide carousel-fade shadow-lg" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+    </div>
+    <div class="carousel-inner rounded-bottom shadow-lg">
+        <div class="carousel-item active" style="height: 600px;">
+            <div class="position-absolute w-100 h-100"
+                style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=2000'); background-size: cover; background-position: center;">
+            </div>
+            <div class="carousel-caption d-none d-md-block text-center h-100 py-0 overflow-hidden">
+                <div class="d-flex flex-column justify-content-center align-items-center h-100">
+                    <h1 class="display-3 fw-bold mb-3 animate__animated animate__fadeInDown">Global Logistics, <span
+                            class="text-primary">Simplified.</span></h1>
+                    <p class="lead fw-normal mb-4 px-lg-5 animate__animated animate__fadeInUp">From local pickup to
+                        international delivery, we handle your packages with care and precision.</p>
+                    <a class="btn btn-primary btn-lg px-5 shadow animate__animated animate__zoomIn"
+                        href="{% url 'track' %}">Track Your Shipment Now</a>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item" style="height: 600px;">
+            <div class="position-absolute w-100 h-100"
+                style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1519003309479-3c8502f9b398?auto=format&fit=crop&q=80&w=2000'); background-size: cover; background-position: center;">
+            </div>
+            <div class="carousel-caption d-none d-md-block text-center h-100 py-0">
+                <div class="d-flex flex-column justify-content-center align-items-center h-100">
+                    <h1 class="display-3 fw-bold mb-3">Swift & Accurate <span class="text-secondary">Delivery.</span>
+                    </h1>
+                    <p class="lead fw-normal mb-4 px-lg-5">Our AI-driven routing ensures your parcels reach their
+                        destination on time, every time.</p>
+                    <a class="btn btn-secondary btn-lg px-5 shadow" href="{% url 'services' %}">Our Services</a>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item" style="height: 600px;">
+            <div class="position-absolute w-100 h-100"
+                style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?auto=format&fit=crop&q=80&w=2000'); background-size: cover; background-position: center;">
+            </div>
+            <div class="carousel-caption d-none d-md-block text-center h-100 py-0">
+                <div class="d-flex flex-column justify-content-center align-items-center h-100">
+                    <h1 class="display-3 fw-bold mb-3">Eco-Friendly <span class="text-success">Solutions.</span></h1>
+                    <p class="lead fw-normal mb-4 px-lg-5">Join us in our mission for a greener planet with our
+                        carbon-neutral shipping programs.</p>
+                    <a class="btn btn-success btn-lg px-5 shadow" href="{% url 'contact' %}">Request a Quote</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </button>
+</div>
+
+<!-- About Section -->
+<div class="container py-5 mt-5" data-aos="fade-up">
+    <div class="row align-items-center">
+        <div class="col-md-6 mb-4 mb-md-0">
+            <div class="position-relative">
+                <img src="https://images.unsplash.com/photo-1570126618953-d437176e8c79?auto=format&fit=crop&q=80&w=800"
+                    class="img-fluid rounded shadow-lg border-4 border-white" alt="Courier Team">
+                <div
+                    class="position-absolute bottom-0 end-0 bg-primary text-white p-3 rounded-pill translate-middle m-3 shadow">
+                    <span class="fw-bold">Fast & Secure</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 ps-lg-5">
+            <h6 class="text-primary text-uppercase fw-bold mb-3">About Global Express Logistics</h6>
+            <h2 class="display-5 fw-bold mb-4">Delivering Excellence Since 2020</h2>
+            <p class="text-muted mb-4">Global Express Logistics is more than just a courier company; we are your
+                strategic logistics
+                partner. We operate a massive network of over 500 distribution centers worldwide, ensuring that distance
+                is never an obstacle for your business or personal needs.</p>
+            <div class="row g-3">
+                <div class="col-sm-6">
+                    <div class="p-3 bg-white shadow-sm border-start border-primary border-4 rounded text-center">
+                        <h4 class="fw-bold mb-0 text-primary">500+</h4>
+                        <small class="text-muted fw-bold text-uppercase">Global Hubs</small>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="p-3 bg-white shadow-sm border-start border-secondary border-4 rounded text-center">
+                        <h4 class="fw-bold mb-0 text-secondary">1M+</h4>
+                        <small class="text-muted fw-bold text-uppercase">Monthly Deliveries</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Services & Fleet -->
+<div class="bg-light py-5 mt-5">
+    <div class="container text-center mb-5 pt-4">
+        <h2 class="display-5 fw-bold">Our Professional Fleet</h2>
+        <p class="text-muted">State-of-the-art vehicles equipped with real-time GPS tracking.</p>
+    </div>
+    <div class="container">
+        <div class="row g-4 pb-5">
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="card h-100 border-0 shadow-lg overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&q=80&w=600"
+                        class="card-img-top" alt="Cargo Aircraft" style="height: 250px; object-fit: cover;">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold">Air Freight</h5>
+                        <p class="card-text text-muted">Next-day international delivery for your most time-sensitive
+                            shipments.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card h-100 border-0 shadow-lg overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=600"
+                        class="card-img-top" alt="Delivery Van" style="height: 250px; object-fit: cover;">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold">Ground Shipping</h5>
+                        <p class="card-text text-muted">Cost-effective and reliable local delivery with our eco-friendly
+                            fleet.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="card h-100 border-0 shadow-lg overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1580674285054-bed31e145f59?auto=format&fit=crop&q=80&w=600"
+                        class="card-img-top" alt="Warehouse" style="height: 250px; object-fit: cover;">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold">Warehousing</h5>
+                        <p class="card-text text-muted">Advanced storage solutions with inventory management and
+                            fulfillment.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Process Section -->
+<div class="container py-5 mt-5" data-aos="fade-up">
+    <div class="text-center mb-5">
+        <h2 class="display-5 fw-bold">How We Work</h2>
+        <p class="text-muted">Simple steps to get your package delivered worldwide.</p>
+    </div>
+    <div class="row text-center">
+        <div class="col-md-3" data-aos="zoom-in" data-aos-delay="100">
+            <div class="display-4 text-primary fw-bold mb-3">01</div>
+            <h5 class="fw-bold">Book Online</h5>
+            <p class="text-muted">Schedule your pickup through our easy-to-use platform.</p>
+        </div>
+        <div class="col-md-3" data-aos="zoom-in" data-aos-delay="200">
+            <div class="display-4 text-secondary fw-bold mb-3">02</div>
+            <h5 class="fw-bold">Pack Securely</h5>
+            <p class="text-muted">We provide professional packing advice and materials.</p>
+        </div>
+        <div class="col-md-3" data-aos="zoom-in" data-aos-delay="300">
+            <div class="display-4 text-accent fw-bold mb-3">03</div>
+            <h5 class="fw-bold">Fast Transit</h5>
+            <p class="text-muted">Our optimized routes ensure your package moves fast.</p>
+        </div>
+        <div class="col-md-3" data-aos="zoom-in" data-aos-delay="400">
+            <div class="display-4 text-success fw-bold mb-3">04</div>
+            <h5 class="fw-bold">Sign & Done</h5>
+            <p class="text-muted">Contactless delivery with digital proof of receipt.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Testimonials Section -->
+<div class="bg-dark text-white py-5 mt-5">
+    <div class="container py-5" data-aos="fade-up">
+        <div class="text-center mb-5">
+            <h6 class="text-primary text-uppercase fw-bold mb-3">Testimonials</h6>
+            <h2 class="display-5 fw-bold">What Our Clients Say</h2>
+        </div>
+        <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8 text-center">
+                            <i class="bi bi-quote display-1 text-primary mb-4 opacity-25"></i>
+                            <p class="lead fs-3 mb-4 italic">"Global Express Logistics has completely transformed our
+                                supply chain. Their real-time tracking is second to none, and our customers love the
+                                transparency."</p>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <img src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=0D6EFD&color=fff"
+                                    class="rounded-circle me-3" style="width: 60px;" alt="Sarah Johnson">
+                                <div class="text-start">
+                                    <h5 class="mb-0 fw-bold">Sarah Johnson</h5>
+                                    <small class="text-primary fw-bold">CEO, TechFlow</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8 text-center">
+                            <i class="bi bi-quote display-1 text-primary mb-4 opacity-25"></i>
+                            <p class="lead fs-3 mb-4 italic">"I've used many courier services for my international
+                                boutique, but none are as reliable and eco-conscious as GE Logistics. Highly
+                                recommended!"</p>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <img src="https://ui-avatars.com/api/?name=Michael+Chen&background=6610f2&color=fff"
+                                    class="rounded-circle me-3" style="width: 60px;" alt="Michael Chen">
+                                <div class="text-start">
+                                    <h5 class="mb-0 fw-bold">Michael Chen</h5>
+                                    <small class="text-secondary fw-bold">Founder, Oasis Wear</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8 text-center">
+                            <i class="bi bi-quote display-1 text-primary mb-4 opacity-25"></i>
+                            <p class="lead fs-3 mb-4 italic">"The automated sorting and ultra-fast warehousing meant our
+                                Black Friday orders were delivered within 24 hours. A game-changer for our business."
+                            </p>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <img src="https://ui-avatars.com/api/?name=David+Ross&background=198754&color=fff"
+                                    class="rounded-circle me-3" style="width: 60px;" alt="David Ross">
+                                <div class="text-start">
+                                    <h5 class="mb-0 fw-bold">David Ross</h5>
+                                    <small class="text-success fw-bold">Logistics Manager, Prime Retail</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-indicators position-relative mt-5">
+                <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="0"
+                    class="active rounded-circle" style="width: 12px; height: 12px;"></button>
+                <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="1" class="rounded-circle"
+                    style="width: 12px; height: 12px;"></button>
+                <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="2" class="rounded-circle"
+                    style="width: 12px; height: 12px;"></button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Logistics Blog - Global Express Logistics{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold">Logistics Insights</h1>
+        <p class="lead text-muted">Stay updated with the latest trends and news in the courier world.</p>
+    </div>
+
+    <div class="row g-4">
+        {% for post in posts %}
+        <div class="col-md-4">
+            <article class="card h-100 border-0 shadow-sm overflow-hidden">
+                <img src="{{ post.image_url }}" class="card-img-top" alt="{{ post.title }}"
+                    style="height: 200px; object-fit: cover;">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between mb-3">
+                        <span
+                            class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill">Trends</span>
+                        <small class="text-muted">{{ post.date }}</small>
+                    </div>
+                    <h3 class="h4 fw-bold">{{ post.title }}</h3>
+                    <p class="text-muted">{{ post.excerpt }}</p>
+                    <a href="{% url 'blog_detail' post.id %}" class="btn btn-link p-0 text-decoration-none fw-bold">Read
+                        More <i class="bi bi-arrow-right"></i></a>
+                </div>
+            </article>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Newsletter Section -->
+    <div class="mt-5 p-5 bg-dark text-white rounded-4 shadow mt-lg-5">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <h2 class="fw-bold">Subscribe to our Newsletter</h2>
+                <p class="mb-0 text-white-50">Get the latest logistics tips and company news delivered to your inbox.
+                </p>
+            </div>
+            <div class="col-lg-6">
+                <form class="d-flex gap-2">
+                    <input type="email" class="form-control form-control-lg border-0" placeholder="Enter your email">
+                    <button class="btn btn-primary btn-lg px-4" type="button">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
