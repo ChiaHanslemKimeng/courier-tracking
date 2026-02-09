@@ -37,8 +37,8 @@ Follow these steps to push your project to GitHub and host it live on PythonAnyw
     *   Open a **Bash Console**.
     *   Run:
         ```bash
-        git clone https://github.com/YOUR_USERNAME/courier_tracking.git
-        cd courier_tracking
+        git clone https://github.com/YOUR_USERNAME/courier-tracking.git
+        cd courier-tracking
         ```
 2.  **Set Up Virtual Environment**:
     *   In the same console, run:
@@ -50,7 +50,7 @@ Follow these steps to push your project to GitHub and host it live on PythonAnyw
     *   Go to the **Web** tab on PythonAnywhere.
     *   Click **Add a new web app**.
     *   Choose **Manual Configuration** -> **Python 3.10**.
-    *   **Source Code**: `/home/hanzfx/courier_tracking`
+    *   **Source Code**: `/home/hanzfx/courier-tracking`
     *   **Virtualenv**: `/home/hanzfx/.virtualenvs/.venv`
 4.  **Edit WSGI File**:
     *   In the Web tab, click the link to your **WSGI configuration file**.
@@ -59,7 +59,7 @@ Follow these steps to push your project to GitHub and host it live on PythonAnyw
         import os
         import sys
 
-        path = '/home/hanzfx/courier_tracking'
+        path = '/home/hanzfx/courier-tracking'
         if path not in sys.path:
             sys.path.append(path)
 
@@ -71,16 +71,57 @@ Follow these steps to push your project to GitHub and host it live on PythonAnyw
 5.  **Static Files**:
     *   Go to the **Web** tab -> **Static files** section.
     *   Add two entries:
-        *   URL: `/static/` | Path: `/home/hanzfx/courier_tracking/static/`
-        *   URL: `/media/` | Path: `/home/hanzfx/courier_tracking/media/`
+        *   URL: `/static/` | Path: `/home/hanzfx/courier-tracking/static/`
+        *   URL: `/media/` | Path: `/home/hanzfx/courier-tracking/media/`
 6.  **Database & Admin**:
     *   In the Bash console, run:
         ```bash
         python manage.py migrate
         python manage.py createsuperuser
         ```
-7.  **Reload**:
-    *   Go back to the **Web** tab and click **Reload hanzfx.pythonanywhere.com**.
+8.  **Enable HTTPS (SSL)**:
+    *   Go to the **Web** tab.
+    *   Find the **"HTTPS"** section.
+    *   Look for **"Force HTTPS"** and set it to **"Enabled"**.
+    *   PythonAnywhere provides a free Let's Encrypt certificate for `*.pythonanywhere.com` domains automatically.
+9.  **Reload**:
+    *   Click **Reload hanzfx.pythonanywhere.com** one last time.
+
+---
+
+## 🚀 Updating Your Live Site
+
+Whenever you make changes to your code locally and want to see them on your live site, follow these steps:
+
+### 1. Push to GitHub (from your Local Computer)
+In your local terminal (VS Code), run:
+```bash
+git add .
+git commit -m "Describe your changes here"
+git push origin main
+```
+
+### 2. Pull Changes on PythonAnywhere
+*   Go to your **Dashboard** on PythonAnywhere.
+*   Open your existing **Bash Console** (or open a new one).
+*   Run:
+    ```bash
+    cd courier-tracking
+    git pull origin main
+    ```
+
+### 3. Apply Migrations (If you changed any Models)
+If you added or changed database fields:
+```bash
+workon .venv
+python manage.py migrate
+```
+
+### 4. Reload the Web App
+*   Go to the **Web** tab.
+*   Click the green **Reload hanzfx.pythonanywhere.com** button.
+
+---
 
 > [!IMPORTANT]
 > Ensure `ALLOWED_HOSTS` in `settings.py` is set to `['hanzfx.pythonanywhere.com']` before pushing to GitHub.

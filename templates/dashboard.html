@@ -1,274 +1,288 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Admin Control Center - Global Express Logistics{% endblock %}
+{% block title %}Operations Dashboard - Global Express Logistics{% endblock %}
 
 {% block extra_css %}
 <style>
+    /* Premium Dashboard Overhaul */
     body {
-        background-color: #f0f2f5;
+        background-color: #f1f5f9;
     }
 
-    .dashboard-wrapper {
+    .dashboard-container {
         display: flex;
         min-height: calc(100vh - 76px);
-        margin-left: -15px;
-        margin-right: -15px;
+        margin: 0 -15px;
     }
 
-    /* Sidebar Styling */
-    .sidebar {
-        width: 280px;
-        background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
-        color: white;
-        padding: 30px 20px;
+    /* Sidebar - Deep Glassmorphism */
+    .admin-sidebar {
+        width: 300px;
+        background: #0f172a;
+        color: #f8fafc;
         display: flex;
         flex-direction: column;
-        transition: all 0.3s ease;
+        padding: 40px 24px;
+        position: relative;
+        z-index: 100;
+        box-shadow: 20px 0 60px rgba(0, 0, 0, 0.1);
     }
 
-    .nav-item-dash {
-        padding: 12px 20px;
-        border-radius: 12px;
-        margin-bottom: 8px;
+    .sidebar-brand {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin-bottom: 60px;
+    }
+
+    .sidebar-logo {
+        max-height: 45px;
+        filter: brightness(0) invert(1);
+        margin-bottom: 20px;
+    }
+
+    .sidebar-nav-link {
         display: flex;
         align-items: center;
-        color: rgba(255, 255, 255, 0.7);
+        padding: 16px 20px;
+        color: rgba(255, 255, 255, 0.6);
         text-decoration: none;
-        transition: all 0.3s ease;
+        border-radius: 16px;
+        margin-bottom: 12px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .nav-item-dash:hover,
-    .nav-item-dash.active {
-        background: rgba(255, 255, 255, 0.1);
-        color: white;
+    .sidebar-nav-link i {
+        font-size: 1.4rem;
+        margin-right: 18px;
+        opacity: 0.8;
     }
 
-    .nav-item-dash i {
-        font-size: 1.25rem;
-        margin-right: 15px;
+    .sidebar-nav-link:hover,
+    .sidebar-nav-link.active {
+        background: rgba(59, 130, 246, 0.15);
+        color: #3b82f6;
+        transform: translateX(5px);
     }
 
-    /* Main Content Styling */
-    .main-content {
+    /* Main Canvas */
+    .dashboard-canvas {
         flex: 1;
-        padding: 40px;
+        padding: 50px;
+        background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.05), transparent);
     }
 
-    .stat-card {
-        border: none;
-        border-radius: 20px;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    .header-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 50px;
+    }
+
+    /* Vibrant Stat Cards */
+    .stat-box {
+        background: white;
+        border: 1px solid rgba(0, 0, 0, 0.03);
+        border-radius: 30px;
+        padding: 30px;
+        position: relative;
+        transition: all 0.4s ease;
         overflow: hidden;
     }
 
-    .stat-card:hover {
+    .stat-box:hover {
         transform: translateY(-10px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1) !important;
+        box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.15);
     }
 
-    .stat-icon {
-        width: 50px;
-        height: 50px;
-        border-radius: 12px;
+    .stat-box::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100px;
+        height: 100px;
+        background: currentColor;
+        opacity: 0.03;
+        border-radius: 0 0 0 100%;
+    }
+
+    .icon-wrapper {
+        width: 65px;
+        height: 65px;
+        border-radius: 20px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.5rem;
-        margin-bottom: 15px;
+        font-size: 1.8rem;
+        margin-bottom: 25px;
     }
 
-    .bg-gradient-primary {
-        background: linear-gradient(45deg, #0d6efd, #6610f2);
-    }
-
-    .bg-gradient-warning {
-        background: linear-gradient(45deg, #fd7e14, #ffc107);
-    }
-
-    .bg-gradient-danger {
-        background: linear-gradient(45deg, #dc3545, #fd7e14);
-    }
-
-    .bg-gradient-success {
-        background: linear-gradient(45deg, #198754, #20c997);
-    }
-
-    .table-card {
+    .data-table-card {
         background: white;
-        border-radius: 24px;
+        border-radius: 35px;
+        padding: 40px;
         border: none;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.03);
     }
 
-    .table thead th {
-        background: #f8fafc;
-        border-bottom: none;
-        text-transform: uppercase;
+    .custom-table thead th {
+        background: transparent;
+        border: none;
+        color: #94a3b8;
         font-size: 0.75rem;
-        letter-spacing: 1px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
         padding: 20px;
     }
 
-    .table tbody td {
-        padding: 20px;
-        border-bottom: 1px solid #f1f5f9;
+    .custom-table tbody tr {
+        border-radius: 20px;
+        transition: background 0.2s;
     }
 
-    .status-pill {
-        padding: 6px 16px;
-        border-radius: 50px;
-        font-weight: 600;
-        font-size: 0.85rem;
+    .custom-table tbody tr:hover {
+        background: #f8fafc;
+    }
+
+    .custom-table td {
+        padding: 25px 20px;
+        vertical-align: middle;
+        border-top: 1px solid #f1f5f9;
+    }
+
+    .badge-pill {
+        padding: 8px 18px;
+        border-radius: 100px;
+        font-weight: 700;
+        font-size: 0.8rem;
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="dashboard-wrapper">
-    <!-- Sidebar -->
-    <div class="sidebar d-none d-lg-flex flex-column">
-        <div class="mb-5 px-3">
-            <h5 class="fw-bold mb-0">Global Express Logistics <span class="text-primary">Admin</span></h5>
+<div class="dashboard-container">
+    <!-- Premium Sidebar -->
+    <div class="admin-sidebar d-none d-lg-flex">
+        <div class="sidebar-brand">
+            <img src="{% static 'images/logo.png' %}" alt="Logo" class="sidebar-logo">
+            <h6 class="text-white-50 small ls-wider mt-2">Logistics Control</h6>
         </div>
+
         <nav class="flex-grow-1">
-            <a href="#" class="nav-item-dash active">
-                <i class="bi bi-grid-fill"></i> Dashboard
+            <a href="#" class="sidebar-nav-link active">
+                <i class="bi bi-columns-gap"></i> Overview
             </a>
-            <a href="#" class="nav-item-dash">
-                <i class="bi bi-box-seam"></i> Shipments
+            <a href="{% url 'admin:index' %}" class="sidebar-nav-link">
+                <i class="bi bi-database-fill-gear"></i> System Admin
             </a>
-            <a href="#" class="nav-item-dash">
-                <i class="bi bi-people"></i> Customers
+            <a href="#" class="sidebar-nav-link">
+                <i class="bi bi-box-seam-fill"></i> Manifests
             </a>
-            <a href="#" class="nav-item-dash">
-                <i class="bi bi-truck"></i> Fleet Management
+            <a href="#" class="sidebar-nav-link">
+                <i class="bi bi-person-lines-fill"></i> Client Base
             </a>
-            <a href="#" class="nav-item-dash">
-                <i class="bi bi-graph-up"></i> Reports
+            <a href="#" class="sidebar-nav-link">
+                <i class="bi bi-envelope-paper-heart-fill"></i> Inbound Requests
             </a>
         </nav>
-        <div class="border-top border-white-10 pt-4 mt-auto">
-            <a href="{% url 'home' %}" class="nav-item-dash text-danger">
-                <i class="bi bi-box-arrow-left"></i> Logout
+
+        <div class="mt-auto">
+            <a href="{% url 'home' %}" class="sidebar-nav-link text-danger">
+                <i class="bi bi-power"></i> Terminate
             </a>
         </div>
     </div>
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <div class="d-flex justify-content-between align-items-center mb-5">
+    <!-- Main Dashboard Canvas -->
+    <div class="dashboard-canvas">
+        <div class="header-section">
             <div>
-                <h2 class="fw-bold mb-1">Operations Overview</h2>
-                <p class="text-muted">Real-time logistics analytics and management</p>
+                <h1 class="fw-bold fs-2 mb-1">Ops Center</h1>
+                <p class="text-muted">Global Express Logistics Fleet & Freight Analysis</p>
             </div>
-            <div class="d-flex gap-2">
-                <button class="btn btn-white shadow-sm rounded-pill px-4"><i class="bi bi-calendar3 me-2"></i>Last 30
-                    Days</button>
-                <button class="btn btn-primary shadow-lg rounded-pill px-4">Generate Report</button>
+            <div class="d-flex gap-3">
+                <div class="bg-white p-2 rounded-4 shadow-sm px-4 d-flex align-items-center">
+                    <span class="text-primary fw-bold">Live Status:</span>
+                    <span class="ms-2 badge bg-success-subtle text-success rounded-pill">Operational</span>
+                </div>
+                <button class="btn btn-primary rounded-4 px-4 py-2 fw-bold shadow-lg">New Shipment</button>
             </div>
         </div>
 
-        <!-- Stats Grid -->
+        <!-- Performance Stats -->
         <div class="row g-4 mb-5">
             <div class="col-md-3">
-                <div class="card stat-card shadow-sm p-3">
-                    <div class="stat-icon bg-gradient-primary text-white">
-                        <i class="bi bi-layers"></i>
-                    </div>
-                    <h6 class="text-muted small fw-bold">Total Shipments</h6>
-                    <div class="d-flex align-items-center">
-                        <h3 class="fw-bold mb-0">1,284</h3>
-                        <span class="ms-auto text-success small"><i class="bi bi-arrow-up"></i> 12.5%</span>
-                    </div>
+                <div class="stat-box text-primary">
+                    <div class="icon-wrapper bg-primary-subtle text-primary"><i class="bi bi-graph-up-arrow"></i></div>
+                    <h5 class="fw-bold fs-2 mb-1">1,482</h5>
+                    <p class="text-muted small mb-0 fw-semibold">Monthly Freight</p>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="card stat-card shadow-sm p-3">
-                    <div class="stat-icon bg-gradient-warning text-white">
-                        <i class="bi bi-lightning"></i>
-                    </div>
-                    <h6 class="text-muted small fw-bold">Active Deliveries</h6>
-                    <div class="d-flex align-items-center">
-                        <h3 class="fw-bold mb-0">342</h3>
-                        <span class="ms-auto text-muted small">Stable</span>
-                    </div>
+                <div class="stat-box text-warning">
+                    <div class="icon-wrapper bg-warning-subtle text-warning"><i class="bi bi-truck"></i></div>
+                    <h5 class="fw-bold fs-2 mb-1">319</h5>
+                    <p class="text-muted small mb-0 fw-semibold">Vehicles en Route</p>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="card stat-card shadow-sm p-3">
-                    <div class="stat-icon bg-gradient-danger text-white">
-                        <i class="bi bi-exclamation-triangle"></i>
-                    </div>
-                    <h6 class="text-muted small fw-bold">Incidents</h6>
-                    <div class="d-flex align-items-center">
-                        <h3 class="fw-bold mb-0">8</h3>
-                        <span class="ms-auto text-danger small"><i class="bi bi-arrow-down"></i> 25%</span>
-                    </div>
+                <div class="stat-box text-success">
+                    <div class="icon-wrapper bg-success-subtle text-success"><i class="bi bi-award"></i></div>
+                    <h5 class="fw-bold fs-2 mb-1">99%</h5>
+                    <p class="text-muted small mb-0 fw-semibold">On-Time Accuracy</p>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="card stat-card shadow-sm p-3">
-                    <div class="stat-icon bg-gradient-success text-white">
-                        <i class="bi bi-check2-circle"></i>
-                    </div>
-                    <h6 class="text-muted small fw-bold">Completion Rate</h6>
-                    <div class="d-flex align-items-center">
-                        <h3 class="fw-bold mb-0">99.4%</h3>
-                        <span class="ms-auto text-success small">+0.2%</span>
-                    </div>
+                <div class="stat-box text-info">
+                    <div class="icon-wrapper bg-info-subtle text-info"><i class="bi bi-globe"></i></div>
+                    <h5 class="fw-bold fs-2 mb-1">142</h5>
+                    <p class="text-muted small mb-0 fw-semibold">Global Nodes</p>
                 </div>
             </div>
         </div>
 
-        <!-- Recent Activity Table -->
-        <div class="card table-card">
-            <div class="p-4 d-flex justify-content-between align-items-center">
-                <h5 class="fw-bold mb-0">Recent Activity</h5>
-                <a href="#" class="text-primary text-decoration-none small fw-bold">View All <i
-                        class="bi bi-chevron-right"></i></a>
+        <!-- Activity Feed -->
+        <div class="data-table-card">
+            <div class="d-flex align-items-center justify-content-between mb-5">
+                <h4 class="fw-bold mb-0">Live Manifest Log</h4>
+                <button class="btn btn-light rounded-pill px-4 text-primary fw-bold btn-sm">Refresh Stream</button>
             </div>
             <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
+                <table class="table custom-table align-middle">
                     <thead>
                         <tr>
-                            <th>Shipment ID</th>
-                            <th>Customer</th>
-                            <th>Route</th>
-                            <th>Status</th>
-                            <th>Est. Delivery</th>
-                            <th class="text-end">Actions</th>
+                            <th>Manifest ID</th>
+                            <th>Consignee</th>
+                            <th>Route Transit</th>
+                            <th>Current Stage</th>
+                            <th>Delivery SLA</th>
+                            <th class="text-end">Manage</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="fw-bold">GE-X83920</td>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <div class="rounded-circle bg-light p-2 me-3"><i class="bi bi-person"></i></div>
-                                    Alex Johnson
-                                </div>
-                            </td>
-                            <td>London &rarr; New York</td>
-                            <td><span class="status-pill bg-success-subtle text-success">Delivered</span></td>
-                            <td>Today, 2:45 PM</td>
+                            <td class="fw-black text-primary">GEL-77291</td>
+                            <td class="fw-semibold">Marcus Holloway</td>
+                            <td class="text-muted">Shanghai &rarr; San Francisco</td>
+                            <td><span class="badge-pill bg-info-subtle text-info">In Customs</span></td>
+                            <td>Feb 12, 10:00 AM</td>
                             <td class="text-end">
-                                <button class="btn btn-light btn-sm rounded-pill px-3">Manage</button>
+                                <button class="btn btn-dark rounded-4 px-3 btn-sm shadow-sm">Inspect</button>
                             </td>
                         </tr>
                         <tr>
-                            <td class="fw-bold">GE-B44122</td>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <div class="rounded-circle bg-light p-2 me-3"><i class="bi bi-person"></i></div>
-                                    Sarah Smith
-                                </div>
-                            </td>
-                            <td>Berlin &rarr; Paris</td>
-                            <td><span class="status-pill bg-warning-subtle text-warning">In Transit</span></td>
-                            <td>Oct 28, 9:00 AM</td>
+                            <td class="fw-black text-primary">GEL-88390</td>
+                            <td class="fw-semibold">Elena Fisher</td>
+                            <td class="text-muted">London &rarr; Dubai</td>
+                            <td><span class="badge-pill bg-success-subtle text-success">Last Mile</span></td>
+                            <td>Today, 4:30 PM</td>
                             <td class="text-end">
-                                <button class="btn btn-light btn-sm rounded-pill px-3">Manage</button>
+                                <button class="btn btn-dark rounded-4 px-3 btn-sm shadow-sm">Inspect</button>
                             </td>
                         </tr>
                     </tbody>

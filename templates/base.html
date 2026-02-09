@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <!-- AOS (Animate on Scroll) -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{% static 'images/logo.png' %}">
     <style>
         :root {
             --primary-color: #0d6efd;
@@ -97,15 +99,8 @@
             background: #212529;
             color: #adb5bd !important;
         }
-
-            {
-            % block extra_css %
-        }
-
-            {
-            % endblock %
-        }
     </style>
+    {% block extra_css %}{% endblock %}
 </head>
 
 <body>
@@ -164,12 +159,6 @@
                         style="max-height: 40px; filter: brightness(0) invert(1);" class="mb-4">
                     <p class="text-white-50 pe-lg-5">Global Express Logistics is a world-class courier and logistics
                         provider dedicated to speed, security, and sustainability across the globe.</p>
-                    <div class="d-flex gap-3 mt-4">
-                        <a href="#" class="text-white-50 fs-5 transition-hover"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="text-white-50 fs-5 transition-hover"><i class="bi bi-twitter-x"></i></a>
-                        <a href="#" class="text-white-50 fs-5 transition-hover"><i class="bi bi-linkedin"></i></a>
-                        <a href="#" class="text-white-50 fs-5 transition-hover"><i class="bi bi-instagram"></i></a>
-                    </div>
                 </div>
                 <div class="col-lg-2 col-md-6">
                     <h5 class="fw-bold mb-4">Quick Links</h5>

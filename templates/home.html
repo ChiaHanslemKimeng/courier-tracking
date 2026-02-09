@@ -10,13 +10,14 @@
         <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
         <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
         <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="3"></button>
     </div>
     <div class="carousel-inner rounded-bottom shadow-lg">
         <div class="carousel-item active" style="height: 600px;">
             <div class="position-absolute w-100 h-100"
                 style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=2000'); background-size: cover; background-position: center;">
             </div>
-            <div class="carousel-caption d-none d-md-block text-center h-100 py-0 overflow-hidden">
+            <div class="carousel-caption d-block text-center h-100 py-0 overflow-hidden">
                 <div class="d-flex flex-column justify-content-center align-items-center h-100">
                     <h1 class="display-3 fw-bold mb-3 animate__animated animate__fadeInDown">Global Logistics, <span
                             class="text-primary">Simplified.</span></h1>
@@ -29,9 +30,9 @@
         </div>
         <div class="carousel-item" style="height: 600px;">
             <div class="position-absolute w-100 h-100"
-                style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1519003309479-3c8502f9b398?auto=format&fit=crop&q=80&w=2000'); background-size: cover; background-position: center;">
+                style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1606185121434-64cb20743bcf?auto=format&fit=crop&q=80&w=2000'); background-size: cover; background-position: center;">
             </div>
-            <div class="carousel-caption d-none d-md-block text-center h-100 py-0">
+            <div class="carousel-caption d-block text-center h-100 py-0">
                 <div class="d-flex flex-column justify-content-center align-items-center h-100">
                     <h1 class="display-3 fw-bold mb-3">Swift & Accurate <span class="text-secondary">Delivery.</span>
                     </h1>
@@ -45,12 +46,26 @@
             <div class="position-absolute w-100 h-100"
                 style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?auto=format&fit=crop&q=80&w=2000'); background-size: cover; background-position: center;">
             </div>
-            <div class="carousel-caption d-none d-md-block text-center h-100 py-0">
+            <div class="carousel-caption d-block text-center h-100 py-0">
                 <div class="d-flex flex-column justify-content-center align-items-center h-100">
                     <h1 class="display-3 fw-bold mb-3">Eco-Friendly <span class="text-success">Solutions.</span></h1>
                     <p class="lead fw-normal mb-4 px-lg-5">Join us in our mission for a greener planet with our
                         carbon-neutral shipping programs.</p>
                     <a class="btn btn-success btn-lg px-5 shadow" href="{% url 'contact' %}">Request a Quote</a>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item" style="height: 600px;">
+            <div class="position-absolute w-100 h-100"
+                style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1512418490979-92798ccc13b0?auto=format&fit=crop&q=80&w=2000'); background-size: cover; background-position: center;">
+            </div>
+            <div class="carousel-caption d-block text-center h-100 py-0">
+                <div class="d-flex flex-column justify-content-center align-items-center h-100">
+                    <h1 class="display-3 fw-bold mb-3">Advanced <span class="text-info">Warehousing.</span></h1>
+                    <p class="lead fw-normal mb-4 px-lg-5">Secure, automated, and real-time inventory management for
+                        your business growth.</p>
+                    <a class="btn btn-info btn-lg px-5 shadow text-white" href="{% url 'services' %}">Explore
+                        Solutions</a>
                 </div>
             </div>
         </div>
