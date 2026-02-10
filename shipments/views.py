@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import Shipment
+from .models import Shipment, SupportMessage
 
 def track_shipment(request):
     shipment = None
@@ -34,6 +35,14 @@ def contact(request):
         subject = request.POST.get('subject')
         message = request.POST.get('message')
         
+        # Save to database (Messaging Center)
+        SupportMessage.objects.create(
+            name=name,
+            email=email,
+            subject=subject,
+            message=message
+        )
+        
         full_message = f"Message from {name} ({email}):\n\n{message}"
         
         try:
@@ -44,9 +53,10 @@ def contact(request):
                 recipient_list=[settings.DEFAULT_FROM_EMAIL],
                 fail_silently=False,
             )
-            messages.success(request, "Your message has been sent successfully! We will get back to you soon.")
+            messages.success(request, "Your message has been sent successfully! Our team will review it and get back to you shortly.")
         except Exception as e:
-            messages.error(request, f"There was an error sending your message. Please try again later. ({str(e)})")
+            # We still show success if database save worked but email failed
+            messages.success(request, "Your message has been received! Our team will get back to you shortly.")
             
         return redirect('contact')
         
@@ -157,11 +167,24 @@ def blog_detail(request, post_id):
 
 def admin_login(request):
     if request.method == 'POST':
-        # Simple dummy logic for demonstration
-        # In a real app, use Django's authentication system properly
-        messages.success(request, "Successfully logged in to Admin Dashboard!")
-        return redirect('admin_dashboard')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        
+        if user is not None:
+            login(request, user)
+            messages.success(request, f"Welcome back, {user.username}!")
+            return redirect('admin_dashboard')
+        else:
+            messages.error(request, "Invalid credentials. Please try again.")
+            
     return render(request, 'login.html')
 
+@login_required(login_url='admin_login')
 def admin_dashboard(request):
     return render(request, 'dashboard.html')
+
+def admin_logout(request):
+    logout(request)
+    messages.success(request, "Terminated session successfully. You are now logged out.")
+    return redirect('admin_login')

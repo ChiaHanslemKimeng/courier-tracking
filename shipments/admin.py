@@ -76,5 +76,14 @@ class ShipmentAdmin(admin.ModelAdmin):
         }),
     )
 
-    def get_readonly_fields(self, request, obj=None):
-        return self.readonly_fields
+from .models import Shipment, Package, ShipmentUpdate, SupportMessage
+
+@admin.register(SupportMessage)
+class SupportMessageAdmin(admin.ModelAdmin):
+    list_display = ('name', 'email', 'subject', 'is_read', 'created_at')
+    list_filter = ('is_read', 'created_at')
+    search_fields = ('name', 'email', 'subject', 'message')
+    readonly_fields = ('created_at',)
+    
+    def has_add_permission(self, request):
+        return False # Messages are created via the contact form

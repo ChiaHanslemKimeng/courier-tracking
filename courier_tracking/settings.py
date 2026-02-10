@@ -53,6 +53,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+LOGIN_URL = 'admin_login'
+
 ROOT_URLCONF = 'courier_tracking.urls'
 
 TEMPLATES = [
@@ -153,24 +155,31 @@ JAZZMIN_SETTINGS = {
     "search_model": ["shipments.Shipment"],
     "user_avatar": None,
     "topmenu_links": [
-        {"name": "Home", "url": "home", "permissions": ["auth.view_user"]},
-        {"model": "auth.User"},
+        {"name": "Main Site", "url": "home", "permissions": ["auth.view_user"]},
+        {"name": "Operations Dashboard", "url": "admin_dashboard"},
+        {"name": "Sign Out", "url": "admin_logout"},
+    ],
+    "usermenu_links": [
+        {"name": "Ops Center", "url": "admin_dashboard", "icon": "fas fa-tachometer-alt"},
+        {"name": "Account Settings", "url": "/admin/auth/user/", "icon": "fas fa-user-shield"},
+        {"name": "Sign Out", "url": "admin_logout", "icon": "fas fa-power-off"},
     ],
     "show_sidebar": True,
     "navigation_expanded": True,
     "icons": {
         "auth": "fas fa-users-cog",
-        "auth.user": "fas fa-user",
+        "auth.User": "fas fa-user",
         "auth.Group": "fas fa-users",
         "shipments.Shipment": "fas fa-box-open",
     },
     "default_icon_parents": "fas fa-chevron-circle-right",
     "default_icon_children": "fas fa-circle",
     "related_modal_active": True,
-    "custom_css": None,
+    "custom_css": "css/admin_custom.css",
     "custom_js": None,
-    "show_ui_builder": False, # This should hide the version by default
-    "changeform_format": "single", # Explicitly set to single for cleanliness
+    "use_google_fonts_cdn": True,
+    "show_ui_builder": False,
+    "changeform_format": "single",
     "show_version": False,
 }
 
@@ -179,7 +188,7 @@ JAZZMIN_UI_TWEAKS = {
     "footer_small_text": False,
     "body_small_text": False,
     "brand_small_text": False,
-    "brand_colour": "navbar-primary",
+    "brand_colour": "navbar-navy",
     "accent": "accent-primary",
     "navbar": "navbar-dark",
     "no_navbar_border": False,
@@ -194,7 +203,7 @@ JAZZMIN_UI_TWEAKS = {
     "sidebar_nav_compact_style": False,
     "sidebar_nav_legacy_style": False,
     "sidebar_nav_flat_style": False,
-    "theme": "default",
+    "theme": "darkly",
     "dark_mode_theme": "darkly",
     "button_classes": {
         "primary": "btn-primary",

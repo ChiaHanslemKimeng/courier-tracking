@@ -88,11 +88,23 @@
 
   .info-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 15px;
     background: #fff;
     border: 1px solid #eee;
     padding: 15px;
+  }
+
+  @media (max-width: 768px) {
+    .info-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .summary-bar {
+      flex-direction: column;
+      gap: 10px;
+      text-align: center;
+    }
   }
 
   .grid-item {
@@ -102,12 +114,46 @@
 
   .summary-bar {
     background: #fdfdfd;
-    padding: 10px;
+    padding: 15px;
     border: 1px solid #eee;
     display: flex;
     justify-content: space-around;
     font-weight: bold;
     margin-bottom: 20px;
+    border-radius: 12px;
+  }
+
+  .status-card {
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    margin: 25px 0;
+    color: white;
+    font-weight: 800;
+    letter-spacing: 1px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: none;
+    text-transform: uppercase;
+  }
+
+  .bg-status-delivered {
+    background: linear-gradient(135deg, #10b981, #059669);
+  }
+
+  .bg-status-transit {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+  }
+
+  .bg-status-pending {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+  }
+
+  .bg-status-cancelled {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+  }
+
+  .bg-status-default {
+    background: linear-gradient(135deg, #64748b, #475569);
   }
 </style>
 
@@ -146,8 +192,9 @@
 </div>
 
 <!-- Status Banner -->
-<div class="status-banner" style="background: #a9a9a9;">
-  SHIPMENT STATUS: {{ shipment.get_status_display|upper }}
+<div
+  class="status-card {% if shipment.status == 'delivered' %}bg-status-delivered{% elif shipment.status == 'in_transit' or shipment.status == 'out_for_delivery' %}bg-status-transit{% elif shipment.status == 'pending' or shipment.status == 'on_hold' %}bg-status-pending{% elif shipment.status == 'cancelled' or shipment.status == 'returned' %}bg-status-cancelled{% else %}bg-status-default{% endif %} animate__animated animate__pulse animate__infinite">
+  <i class="bi bi-box-seam me-2"></i> SHIPMENT STATUS: {{ shipment.get_status_display|upper }}
 </div>
 
 <!-- Shipment Information Table -->
@@ -219,40 +266,48 @@
   </div>
 
   <div class="grid-item">
-    <div class="info-label">Pick-up Time:</div>
-    <div>{{ shipment.pickup_time|default:"N/A" }}</div>
+    <div class="info-label text-primary">Hours Left for Delivery:</div>
+    <div class="fw-bold text-primary">
+      {% if shipment.hours_left %}
+      {{ shipment.hours_left }} hrs
+      {% else %}
+      Calculating...
+      {% endif %}
+    </div>
   </div>
 </div>
 
 <!-- Packages Table -->
 {% if shipment.packages.all %}
 <h5 class="fw-bold mb-3">Packages</h5>
-<table class="premium-table">
-  <thead>
-    <tr>
-      <th>Qty.</th>
-      <th>Piece Type</th>
-      <th>Description</th>
-      <th>Length(cm)</th>
-      <th>Width(cm)</th>
-      <th>Height(cm)</th>
-      <th>Weight (kg)</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for pkg in shipment.packages.all %}
-    <tr>
-      <td>{{ pkg.qty }}</td>
-      <td>{{ pkg.piece_type }}</td>
-      <td>{{ pkg.description }}</td>
-      <td>{{ pkg.length }}</td>
-      <td>{{ pkg.width }}</td>
-      <td>{{ pkg.height }}</td>
-      <td>{{ pkg.weight }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+<div class="table-responsive">
+  <table class="premium-table">
+    <thead>
+      <tr>
+        <th>Qty.</th>
+        <th>Piece Type</th>
+        <th>Description</th>
+        <th>Length(cm)</th>
+        <th>Width(cm)</th>
+        <th>Height(cm)</th>
+        <th>Weight (kg)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for pkg in shipment.packages.all %}
+      <tr>
+        <td>{{ pkg.qty }}</td>
+        <td>{{ pkg.piece_type }}</td>
+        <td>{{ pkg.description }}</td>
+        <td>{{ pkg.length }}</td>
+        <td>{{ pkg.width }}</td>
+        <td>{{ pkg.height }}</td>
+        <td>{{ pkg.weight }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endif %}
 
 <!-- Volumetric Summary -->
@@ -266,20 +321,94 @@
 
 <!-- Map Section -->
 {% if shipment.current_lat and shipment.current_lng %}
-<h5 class="fw-bold mb-3">Current Location Map</h5>
-<div id="map" class="rounded border mb-4" style="height: 350px; width: 100%;"></div>
+<h5 class="fw-bold mb-3">Real-Time Tracking Route</h5>
+<div id="map" class="rounded border mb-4 shadow-sm" style="height: 450px; width: 100%;"></div>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    const lat = parseFloat("{{ shipment.current_lat }}");
-    const lng = parseFloat("{{ shipment.current_lng }}");
-    const map = L.map("map").setView([lat, lng], 13);
+    console.log("Initializing Tracking Map...");
+
+    const currentLat = parseFloat("{{ shipment.current_lat|default:'NaN' }}");
+    const currentLng = parseFloat("{{ shipment.current_lng|default:'NaN' }}");
+    const originLat = parseFloat("{{ shipment.origin_lat|default:'NaN' }}");
+    const originLng = parseFloat("{{ shipment.origin_lng|default:'NaN' }}");
+    const destLat = parseFloat("{{ shipment.dest_lat|default:'NaN' }}");
+    const destLng = parseFloat("{{ shipment.dest_lng|default:'NaN' }}");
+
+    console.log("Coords:", { currentLat, currentLng, originLat, originLng, destLat, destLng });
+
+    if (isNaN(currentLat) || isNaN(currentLng)) {
+      document.getElementById("map").innerHTML = "<div class='p-4 text-center text-muted'>Real-time coordinates unavailable.</div>";
+      return;
+    }
+
+    const map = L.map("map");
+
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
-    L.marker([lat, lng]).addTo(map).bindPopup("Current Location: {{ shipment.current_location }}").openPopup();
+
+    const markers = [];
+
+    // Markers
+    const originIcon = L.icon({
+      iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41]
+    });
+
+    const destIcon = L.icon({
+      iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41]
+    });
+
+    const currentIcon = L.icon({
+      iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41]
+    });
+
+    // Origin Marker
+    if (!isNaN(originLat) && !isNaN(originLng)) {
+      L.marker([originLat, originLng], { icon: originIcon }).addTo(map).bindPopup("Origin: {{ shipment.origin|escapejs }}");
+      markers.push([originLat, originLng]);
+    }
+
+    // Destination Marker
+    if (!isNaN(destLat) && !isNaN(destLng)) {
+      L.marker([destLat, destLng], { icon: destIcon }).addTo(map).bindPopup("Destination: {{ shipment.destination|escapejs }}");
+      markers.push([destLat, destLng]);
+    }
+
+    // Current Location Marker
+    L.marker([currentLat, currentLng], { icon: currentIcon }).addTo(map).bindPopup("Current Location: {{ shipment.current_location|escapejs }}").openPopup();
+    markers.push([currentLat, currentLng]);
+
+    // Draw route and fit bounds
+    if (!isNaN(originLat) && !isNaN(originLng)) {
+      const points = [[originLat, originLng], [currentLat, currentLng]];
+      if (!isNaN(destLat) && !isNaN(destLng)) points.push([destLat, destLng]);
+
+      const polyline = L.polyline(points, { color: '#00a651', weight: 4, opacity: 0.5, dashArray: '5, 10' }).addTo(map);
+      L.polyline([[originLat, originLng], [currentLat, currentLng]], { color: '#00a651', weight: 5 }).addTo(map);
+
+      map.fitBounds(polyline.getBounds().pad(0.1));
+    } else {
+      map.setView([currentLat, currentLng], 12);
+    }
+
     setTimeout(() => map.invalidateSize(), 500);
   });
 </script>
@@ -288,29 +417,31 @@
 <!-- Shipment History Table -->
 {% if shipment.updates.all %}
 <h5 class="fw-bold mb-3">Shipment History</h5>
-<table class="premium-table">
-  <thead style="background: var(--primary-green) !important;">
-    <tr>
-      <th>Date</th>
-      <th>Time</th>
-      <th>Location</th>
-      <th>Status</th>
-      <th>Updated By</th>
-      <th>Remarks</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for update in shipment.updates.all %}
-    <tr>
-      <td>{{ update.date }}</td>
-      <td>{{ update.time }}</td>
-      <td>{{ update.location }}</td>
-      <td>{{ update.status }}</td>
-      <td>{{ update.updated_by }}</td>
-      <td>{{ update.remarks }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+<div class="table-responsive">
+  <table class="premium-table">
+    <thead style="background: var(--primary-green) !important;">
+      <tr>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Location</th>
+        <th>Status</th>
+        <th>Updated By</th>
+        <th>Remarks</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for update in shipment.updates.all %}
+      <tr>
+        <td>{{ update.date }}</td>
+        <td>{{ update.time }}</td>
+        <td>{{ update.location }}</td>
+        <td>{{ update.status }}</td>
+        <td>{{ update.updated_by }}</td>
+        <td>{{ update.remarks }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endif %}
 </div>

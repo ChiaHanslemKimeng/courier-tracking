@@ -1,0 +1,147 @@
+/* Custom Admin Styling to match Dashboard */
+
+:root {
+    --primary-color: #3b82f6;
+    --dark-bg: #0f172a;
+    --sidebar-bg: #0f172a;
+    --body-bg: #111827;
+    /* Darker than navy */
+    --card-bg: #1f2937;
+    --text-primary: #f9fafb;
+    --text-muted: #9ca3af;
+}
+
+/* Sidebar Styling */
+.main-sidebar {
+    background-color: var(--sidebar-bg) !important;
+}
+
+.brand-link {
+    background-color: var(--sidebar-bg) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.nav-sidebar .nav-item .nav-link.active {
+    background-color: rgba(59, 130, 246, 0.15) !important;
+    color: var(--primary-color) !important;
+    border-radius: 12px !important;
+}
+
+.nav-sidebar .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    border-radius: 12px !important;
+}
+
+/* Navbar (Dark Mode Fix) */
+.main-header {
+    background-color: var(--dark-bg) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.main-header .nav-link,
+.main-header .nav-link i,
+.main-header .navbar-search-block .form-control {
+    color: var(--text-primary) !important;
+}
+
+.navbar-search-block .form-control::placeholder {
+    color: var(--text-muted) !important;
+}
+
+/* Cards & Sections */
+.card {
+    background-color: var(--card-bg) !important;
+    border-radius: 20px !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Breadcrumbs & Headers (Fixing white-on-dark) */
+.content-header h1 {
+    color: var(--text-primary) !important;
+}
+
+.breadcrumb-item,
+.breadcrumb-item a {
+    color: var(--text-muted) !important;
+}
+
+.breadcrumb-item.active {
+    color: var(--primary-color) !important;
+}
+
+/* Recent Actions & Timeline */
+#recent-actions-column h2 {
+    color: var(--text-primary) !important;
+}
+
+.timeline-header {
+    background: transparent !important;
+    color: var(--text-primary) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.timeline-body {
+    color: var(--text-muted) !important;
+}
+
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+.card-header {
+    background-color: transparent !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    padding: 20px 25px !important;
+    color: var(--text-primary) !important;
+}
+
+/* Content Area */
+.content-wrapper {
+    background-color: var(--body-bg) !important;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    border-radius: 10px !important;
+    padding: 8px 16px !important;
+    font-weight: 600 !important;
+}
+
+/* Table Enhancements */
+.table {
+    color: var(--text-primary) !important;
+}
+
+.table thead th {
+    background-color: rgba(255, 255, 255, 0.03) !important;
+    color: var(--text-muted) !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    font-size: 0.75rem !important;
+    letter-spacing: 0.05em !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.02) !important;
+}
+
+/* Dashboard Home Specifics */
+.info-box {
+    background-color: var(--card-bg) !important;
+    color: var(--text-primary) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+    border: none !important;
+}
+
+/* Font Smoothing */
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: 'Inter', sans-serif !important;
+}

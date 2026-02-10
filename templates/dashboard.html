@@ -7,7 +7,8 @@
 <style>
     /* Premium Dashboard Overhaul */
     body {
-        background-color: #f1f5f9;
+        background-color: #0d1117;
+        color: #f0f6fc;
     }
 
     .dashboard-container {
@@ -24,9 +25,38 @@
         display: flex;
         flex-direction: column;
         padding: 40px 24px;
-        position: relative;
-        z-index: 100;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        z-index: 1050;
         box-shadow: 20px 0 60px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    @media (max-width: 991.98px) {
+        .admin-sidebar {
+            position: fixed;
+            left: -300px;
+            height: 100%;
+        }
+
+        .admin-sidebar.show {
+            left: 0;
+        }
+
+        .dashboard-container {
+            flex-direction: column;
+        }
+
+        .dashboard-canvas {
+            padding: 20px !important;
+        }
+
+        .header-section {
+            flex-direction: column;
+            align-items: flex-start !important;
+            gap: 20px;
+        }
     }
 
     .sidebar-brand {
@@ -73,7 +103,7 @@
     .dashboard-canvas {
         flex: 1;
         padding: 50px;
-        background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.05), transparent);
+        background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.1), transparent);
     }
 
     .header-section {
@@ -85,30 +115,59 @@
 
     /* Vibrant Stat Cards */
     .stat-box {
-        background: white;
-        border: 1px solid rgba(0, 0, 0, 0.03);
+        background: #161b22;
+        border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 30px;
         padding: 30px;
         position: relative;
-        transition: all 0.4s ease;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         overflow: hidden;
+        z-index: 1;
     }
 
     .stat-box:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.15);
+        transform: translateY(-12px) scale(1.02);
+        box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.2);
     }
 
-    .stat-box::after {
+    .stat-box::before {
         content: '';
         position: absolute;
         top: 0;
-        right: 0;
-        width: 100px;
-        height: 100px;
-        background: currentColor;
-        opacity: 0.03;
-        border-radius: 0 0 0 100%;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+        z-index: -1;
+    }
+
+    .stat-box.bg-grad-primary {
+        background: linear-gradient(135deg, #3b82f6, #2563eb);
+        color: white !important;
+    }
+
+    .stat-box.bg-grad-warning {
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        color: white !important;
+    }
+
+    .stat-box.bg-grad-success {
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: white !important;
+    }
+
+    .stat-box.bg-grad-info {
+        background: linear-gradient(135deg, #06b6d4, #0891b2);
+        color: white !important;
+    }
+
+    .stat-box .text-muted {
+        color: rgba(255, 255, 255, 0.8) !important;
+    }
+
+    .stat-box .icon-wrapper {
+        background: rgba(255, 255, 255, 0.2) !important;
+        color: white !important;
     }
 
     .icon-wrapper {
@@ -123,17 +182,17 @@
     }
 
     .data-table-card {
-        background: white;
+        background: #161b22;
         border-radius: 35px;
         padding: 40px;
-        border: none;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
     }
 
     .custom-table thead th {
-        background: transparent;
+        background: rgba(255, 255, 255, 0.05);
         border: none;
-        color: #94a3b8;
+        color: #8b949e;
         font-size: 0.75rem;
         text-transform: uppercase;
         letter-spacing: 2px;
@@ -143,16 +202,17 @@
     .custom-table tbody tr {
         border-radius: 20px;
         transition: background 0.2s;
+        color: #f0f6fc;
     }
 
     .custom-table tbody tr:hover {
-        background: #f8fafc;
+        background: rgba(255, 255, 255, 0.05);
     }
 
     .custom-table td {
         padding: 25px 20px;
         vertical-align: middle;
-        border-top: 1px solid #f1f5f9;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .badge-pill {
@@ -161,13 +221,79 @@
         font-weight: 700;
         font-size: 0.8rem;
     }
+
+    /* Mobile Top Nav */
+    .mobile-dashboard-nav {
+        background: #0f172a;
+        padding: 15px 20px;
+        display: none;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        z-index: 1060;
+    }
+
+    @media (max-width: 991.98px) {
+        .mobile-dashboard-nav {
+            display: flex;
+        }
+
+        .dashboard-container {
+            margin: 0;
+        }
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1045;
+        backdrop-filter: blur(4px);
+    }
+
+    .sidebar-overlay.show {
+        display: block;
+    }
+
+    /* Text Contrast Fixes */
+    .dropdown-item {
+        color: #334155;
+    }
+
+    .text-muted {
+        color: #64748b !important;
+    }
+
+    .custom-table thead th {
+        color: #475569 !important;
+        /* Darker for accessibility */
+        background: #f8fafc;
+    }
 </style>
 {% endblock %}
 
 {% block content %}
+<!-- Mobile Dashboard Nav -->
+<div class="mobile-dashboard-nav shadow-sm">
+    <div class="d-flex align-items-center">
+        <img src="{% static 'images/logo.png' %}" alt="Logo" style="max-height: 30px; filter: brightness(0) invert(1);">
+        <span class="ms-2 text-white-50 small ls-wider fw-bold">Ops Center</span>
+    </div>
+    <button class="btn btn-outline-light border-0" id="sidebarToggle">
+        <i class="bi bi-list fs-2"></i>
+    </button>
+</div>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
 <div class="dashboard-container">
     <!-- Premium Sidebar -->
-    <div class="admin-sidebar d-none d-lg-flex">
+    <div class="admin-sidebar" id="adminSidebar">
         <div class="sidebar-brand">
             <img src="{% static 'images/logo.png' %}" alt="Logo" class="sidebar-logo">
             <h6 class="text-white-50 small ls-wider mt-2">Logistics Control</h6>
@@ -178,7 +304,7 @@
                 <i class="bi bi-columns-gap"></i> Overview
             </a>
             <a href="{% url 'admin:index' %}" class="sidebar-nav-link">
-                <i class="bi bi-database-fill-gear"></i> System Admin
+                <i class="bi bi-person-gear"></i> System Admin
             </a>
             <a href="#" class="sidebar-nav-link">
                 <i class="bi bi-box-seam-fill"></i> Manifests
@@ -192,7 +318,7 @@
         </nav>
 
         <div class="mt-auto">
-            <a href="{% url 'home' %}" class="sidebar-nav-link text-danger">
+            <a href="{% url 'admin_logout' %}" class="sidebar-nav-link text-danger">
                 <i class="bi bi-power"></i> Terminate
             </a>
         </div>
@@ -202,44 +328,64 @@
     <div class="dashboard-canvas">
         <div class="header-section">
             <div>
-                <h1 class="fw-bold fs-2 mb-1">Ops Center</h1>
+                <h1 class="fw-bold fs-2 mb-1 text-white">Ops Center</h1>
                 <p class="text-muted">Global Express Logistics Fleet & Freight Analysis</p>
             </div>
             <div class="d-flex gap-3">
-                <div class="bg-white p-2 rounded-4 shadow-sm px-4 d-flex align-items-center">
+                <div class="bg-dark border border-secondary p-2 rounded-4 shadow-sm px-4 d-flex align-items-center">
                     <span class="text-primary fw-bold">Live Status:</span>
                     <span class="ms-2 badge bg-success-subtle text-success rounded-pill">Operational</span>
                 </div>
-                <button class="btn btn-primary rounded-4 px-4 py-2 fw-bold shadow-lg">New Shipment</button>
+                <button class="btn btn-primary rounded-4 px-4 py-2 fw-bold shadow-lg me-2">New Shipment</button>
+                <div class="dropdown">
+                    <button
+                        class="btn btn-dark bg-dark border border-secondary rounded-pill px-3 py-2 shadow-sm dropdown-toggle"
+                        type="button" id="dashboardUserDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle text-primary me-2"></i>
+                        <span class="fw-bold small text-white">{{ user.username }}</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end border-0 shadow-lg mt-3 rounded-4 p-2"
+                        aria-labelledby="dashboardUserDropdown" style="min-width: 200px;">
+                        <li><a class="dropdown-item rounded-3 py-2" href="{% url 'admin:index' %}">
+                                <i class="bi bi-person-gear me-2"></i> Manage Account</a></li>
+                        <li><a class="dropdown-item rounded-3 py-2" href="{% url 'home' %}">
+                                <i class="bi bi-globe me-2"></i> Public Site</a></li>
+                        <li>
+                            <hr class="dropdown-divider opacity-50">
+                        </li>
+                        <li><a class="dropdown-item rounded-3 py-2 text-danger fw-bold" href="{% url 'admin_logout' %}">
+                                <i class="bi bi-box-arrow-right me-2"></i> Sign Out</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
 
         <!-- Performance Stats -->
         <div class="row g-4 mb-5">
-            <div class="col-md-3">
-                <div class="stat-box text-primary">
-                    <div class="icon-wrapper bg-primary-subtle text-primary"><i class="bi bi-graph-up-arrow"></i></div>
+            <div class="col-6 col-md-3">
+                <div class="stat-box bg-grad-primary animate__animated animate__fadeIn">
+                    <div class="icon-wrapper"><i class="bi bi-graph-up-arrow"></i></div>
                     <h5 class="fw-bold fs-2 mb-1">1,482</h5>
                     <p class="text-muted small mb-0 fw-semibold">Monthly Freight</p>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="stat-box text-warning">
-                    <div class="icon-wrapper bg-warning-subtle text-warning"><i class="bi bi-truck"></i></div>
+            <div class="col-6 col-md-3">
+                <div class="stat-box bg-grad-warning animate__animated animate__fadeIn" style="animation-delay: 0.1s;">
+                    <div class="icon-wrapper"><i class="bi bi-truck"></i></div>
                     <h5 class="fw-bold fs-2 mb-1">319</h5>
                     <p class="text-muted small mb-0 fw-semibold">Vehicles en Route</p>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="stat-box text-success">
-                    <div class="icon-wrapper bg-success-subtle text-success"><i class="bi bi-award"></i></div>
+            <div class="col-6 col-md-3">
+                <div class="stat-box bg-grad-success animate__animated animate__fadeIn" style="animation-delay: 0.2s;">
+                    <div class="icon-wrapper"><i class="bi bi-award"></i></div>
                     <h5 class="fw-bold fs-2 mb-1">99%</h5>
                     <p class="text-muted small mb-0 fw-semibold">On-Time Accuracy</p>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="stat-box text-info">
-                    <div class="icon-wrapper bg-info-subtle text-info"><i class="bi bi-globe"></i></div>
+            <div class="col-6 col-md-3">
+                <div class="stat-box bg-grad-info animate__animated animate__fadeIn" style="animation-delay: 0.3s;">
+                    <div class="icon-wrapper"><i class="bi bi-globe"></i></div>
                     <h5 class="fw-bold fs-2 mb-1">142</h5>
                     <p class="text-muted small mb-0 fw-semibold">Global Nodes</p>
                 </div>
@@ -291,4 +437,26 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const sidebar = document.getElementById('adminSidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        const toggle = document.getElementById('sidebarToggle');
+
+        if (toggle) {
+            toggle.addEventListener('click', () => {
+                sidebar.classList.toggle('show');
+                overlay.classList.toggle('show');
+            });
+        }
+
+        if (overlay) {
+            overlay.addEventListener('click', () => {
+                sidebar.classList.remove('show');
+                overlay.classList.remove('show');
+            });
+        }
+    });
+</script>
 {% endblock %}

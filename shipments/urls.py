@@ -1,6 +1,6 @@
 # shipments/urls.py
 from django.urls import path
-from .views import track_shipment, home, about, contact, services, blog, blog_detail, admin_login, admin_dashboard
+from .views import track_shipment, home, about, contact, services, blog, blog_detail, admin_login, admin_dashboard, admin_logout
 
 urlpatterns = [
     path('', home, name='home'),
@@ -12,4 +12,5 @@ urlpatterns = [
     path('blog/<int:post_id>/', blog_detail, name='blog_detail'),
     path('admin/login/', admin_login, name='admin_login'),
     path('admin/dashboard/', admin_dashboard, name='admin_dashboard'),
+    path('admin/logout/', admin_logout, name='admin_logout'),
 ]
