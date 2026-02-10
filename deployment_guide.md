@@ -68,10 +68,14 @@ Follow these steps to push your project to GitHub and host it live on PythonAnyw
         from django.core.wsgi import get_wsgi_application
         application = get_wsgi_application()
         ```
-5.  **Static Files**:
+7.  **Static Files**:
+    *   In the Bash console, run:
+        ```bash
+        python manage.py collectstatic
+        ```
     *   Go to the **Web** tab -> **Static files** section.
-    *   Add two entries:
-        *   URL: `/static/` | Path: `/home/hanzfx/courier-tracking/static/`
+    *   Add (or update) these entries:
+        *   URL: `/static/` | Path: `/home/hanzfx/courier-tracking/staticfiles/`
         *   URL: `/media/` | Path: `/home/hanzfx/courier-tracking/media/`
 6.  **Database & Admin**:
     *   In the Bash console, run:
@@ -110,11 +114,12 @@ git push origin main
     git pull origin main
     ```
 
-### 3. Apply Migrations (If you changed any Models)
-If you added or changed database fields:
+### 3. Collect Static & Migrations
+If you changed any Models or CSS/Images:
 ```bash
 workon .venv
 python manage.py migrate
+python manage.py collectstatic --noinput
 ```
 
 ### 4. Reload the Web App
